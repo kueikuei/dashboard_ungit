@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[17]:
+# In[62]:
 
 
 # 套件載入
@@ -12,25 +12,13 @@ from datetime import datetime
 import pytz
 
 
-# In[18]:
-
-
-# 定義等待容器
-# box = {}
-# 定義 document
-doc = datetime.now(pytz.timezone('Asia/Taipei')).strftime("%Y-%m-%d-%H-%M-%S")
-# 定義 DB
-db = firestore.Client()
-doc_ref = db.collection(u'unboxing').document(doc)
-
-
-# In[14]:
+# In[63]:
 
 
 # Query Box
 qryStrAll = """
-DECLARE start_dtraceback_daynum INT64 DEFAULT -3;
-DECLARE end_traceback_daynum INT64 DEFAULT -2;
+DECLARE start_dtraceback_daynum INT64 DEFAULT -2;
+DECLARE end_traceback_daynum INT64 DEFAULT -1;
 DECLARE start_datetime DATETIME DEFAULT DATETIME(TIMESTAMP_ADD(CURRENT_TIMESTAMP(), INTERVAL start_dtraceback_daynum DAY), "Asia/Taipei");
 DECLARE end_datetime DATETIME DEFAULT DATETIME(TIMESTAMP_ADD(CURRENT_TIMESTAMP(), INTERVAL end_traceback_daynum DAY), "Asia/Taipei");
 
@@ -74,35 +62,35 @@ FROM t
 """
 
 
-# In[21]:
+# In[64]:
 
 
-get_ipython().system('touch unboxing.py')
-
-
-# In[19]:
-
-
-def getSplitBox(qryStr):
-    
-    # ref = db.reference('/'+col)
-    
-    bq_client = bigquaery.Client()
-    query_job = bq_client.query(qryStr) # API request
+def getSplitBox(self):
+    # 定義等待容器
+    # box = {}
+    # 定義 document
+    doc = datetime.now(pytz.timezone('Asia/Taipei')).strftime("%Y-%m-%d-%H-%M-%S")
+    # 定義 DB
+    db = firestore.Client()
+    doc_ref = db.collection(u'unboxing').document(doc)
+        
+    bq_client = bigquery.Client()
+    query_job = bq_client.query(qryStrAll) # API request
 
     rows_df = query_job.result().to_dataframe() # Waits for query to finish
     postdata = rows_df.to_dict('index')
-    
+
     # 寫入 DB    
     doc_ref.set(postdata[0])
+
     
 
 
-# In[20]:
+# In[65]:
 
 
 # 執行所有 qru
-getSplitBox(qryStrAll)
+# getSplitBox()
 
 # db = firestore.Client()
 # doc_ref = db.collection(u'unboxing').document(doc)
@@ -110,7 +98,7 @@ getSplitBox(qryStrAll)
 # doc_ref.set(box)
 
 
-# In[13]:
+# In[66]:
 
 
 #  測試用
