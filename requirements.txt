@@ -1,6 +1,6 @@
 # Function dependencies, for example:
 # package>=version
-google-cloud-firestore
-google-cloud-bigquery==1.10
+google-cloud-bigquery==1.10.0
 google-cloud-core==0.28.1
+google-cloud-firestore==1.6.1
 pandas
