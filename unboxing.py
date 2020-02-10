@@ -244,11 +244,11 @@ def test_getSplitBox(s_t_h,e_t_h):
 
 
 # 寫入 Qry 資料
-def getSplitBox(s_t_h,e_t_h):
+def getSplitBox(self):
     # 定義參數 
     query_params = [
-      bigquery.ScalarQueryParameter("start_traceback_daynum", "INT64", s_t_h),
-      bigquery.ScalarQueryParameter("end_traceback_daynum", "INT64", e_t_h),
+      bigquery.ScalarQueryParameter("start_traceback_daynum", "INT64", -30),
+      bigquery.ScalarQueryParameter("end_traceback_daynum", "INT64", -6),
     ]
 
     job_config = bigquery.QueryJobConfig()
@@ -292,4 +292,4 @@ def getSplitBox(s_t_h,e_t_h):
 
 
 # 正式執行
-getSplitBox(-30,-6)
+# getSplitBox(-30,-6)
